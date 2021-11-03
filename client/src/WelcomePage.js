@@ -10,18 +10,17 @@ function WelcomePage() {
     const[todos, setTodos]= useState([])
 
     return (
-        <>
-        <div className='welcome-page'>
+      <>
+        <div className="welcome-page">
+          <h1>Werewolf</h1>
+          <button onClick={() => history.push("/TV")}>START</button>
+          <button onClick={() => history.push("/device")}>JOIN</button>
+
           <h1>
-          Werewolf
-          </h1> 
-          <button onClick={() => history.push("/TV")} >START</button>
-          <button onClick={() => history.push("/device")} >JOIN</button>
-          <h1>
-            <SIOEX/>
+            <SIOEX />
           </h1>
         </div>
-        </>
-    )
+      </>
+    );
 }
 export default WelcomePage;

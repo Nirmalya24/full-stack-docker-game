@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import io from "socket.io-client";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import WelcomePage from "./WelcomePage.js";
 import JoinInstruction from "./PersonalDevice/JoinInstruction.js";
@@ -20,7 +21,35 @@ import End from "./TV/End.js";
 function App() {
   const [state, setState] = useState("init");
   const [playerState, setPlayerState] = useState("join");
+
+  const [socket, setSocket] = useState(null);
+  const [socketConnected, setSocketConnected] = useState(false);
   //default home page is always just "/"
+
+  // establish socket connection
+  useEffect(() => {
+    setSocket(io("http://localhost:5000"));
+  }, []);
+
+  // subscribe to the socket event
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("connect", () => {
+      setSocketConnected(socket.connected);
+    });
+    socket.on("disconnect", () => {
+      setSocketConnected(socket.connected);
+    });
+  }, [socket]);
+
+  // manage socket connection
+  const handleSocketConnection = () => {
+    if (socketConnected) {
+      socket.disconnect();
+    } else {
+      socket.connect();
+    }
+  };
 
   return (
     <div className="App">
@@ -41,6 +70,15 @@ function App() {
         <Route path="/device" render={() => <Device super={playerState} />} />
         <Route path="/TV" render={() => <TV super={state} />} />
       </Router>
+
+      <b style={{ color: "white" }}>
+        Connection status: {socketConnected ? "Connected" : "Not connected"}
+      </b>
+      <input
+        type="button"
+        value={socketConnected ? "Disconnect" : "Connect"}
+        onClick={handleSocketConnection}
+      />
     </div>
   );
 }
