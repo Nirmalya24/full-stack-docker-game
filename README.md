@@ -13,12 +13,12 @@ There is a Makefile at the root of the project from where you can run and manage
 `cd` in to the root of the directory
 ### 1. To start the dev environment
 `make dev`
-Please be patient on this step since it will be installing everything from scratch. To stop all the services you can simple press `CTRL+C` OR `CMD+C`
+Please be patient on this step since it will be installing everything from scratch. To leave the dev environment, you can simple press `CTRL+C` OR `CMD+C`. **NOTE: The docker services are still running in the background. Make sure to stop them as needed.**
 
 ### 2. To start docker services silently
 `make start`
 
-### 3. To stop the docker services manually
+### 3. To stop the docker services
 `make stop`
 
 ### 4. To access client terminal
